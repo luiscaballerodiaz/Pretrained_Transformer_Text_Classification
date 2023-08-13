@@ -54,8 +54,8 @@ val_batch_size = 32
 test_batch_size = 32
 learning_rate = 2e-5
 num_epochs = 3
-model_name = 'BSC-LT/roberta-base-bne'
-# Note: selected transformer model is from Hugging Face website (https://huggingface.co/BSC-LT/roberta-base-bne)
+model_name = 'PlanTL-GOB-ES/roberta-base-bne'
+# Note: selected transformer model is from Hugging Face website (https://huggingface.co/PlanTL-GOB-ES/roberta-base-bne)
 
 # MAIN CODE
 # Generate dataframe from input data
@@ -78,9 +78,9 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 train_encodings = tokenizer(train_texts.tolist(), truncation=True, max_length=max_seq_length, padding=True)
 val_encodings = tokenizer(val_texts.tolist(), truncation=True, max_length=max_seq_length, padding=True)
 test_encodings = tokenizer(test_texts.tolist(), truncation=True, max_length=max_seq_length, padding=True)
-train_dataset = tf.data.Dataset.from_tensor_slices((dict(train_encodings), train_labels))
-val_dataset = tf.data.Dataset.from_tensor_slices((dict(val_encodings), val_labels))
-test_dataset = tf.data.Dataset.from_tensor_slices((dict(test_encodings), test_labels))
+train_dataset = tf.data.Dataset.from_tensor_slices((train_encodings['input_ids'], train_labels))
+val_dataset = tf.data.Dataset.from_tensor_slices((val_encodings['input_ids'], val_labels))
+test_dataset = tf.data.Dataset.from_tensor_slices((test_encodings['input_ids'], test_labels))
 
 # Calculate steps
 train_steps_per_epoch = int(len(train_dataset) / train_batch_size)
